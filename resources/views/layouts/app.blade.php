@@ -11,7 +11,30 @@
             height: 200px;
             object-fit: cover;
             border: 5px solid #007bff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
+
+        /* Fallback untuk tanpa foto */
+        .profile-img-placeholder {
+            width: 200px;
+            height: 200px;
+            border: 5px solid #007bff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .project-image {
+            transition: transform 0.3s ease;
+        }
+
+        .project-image:hover {
+            transform: scale(1.05);
+        }
+        
         .section-title {
             border-bottom: 2px solid #007bff;
             padding-bottom: 10px;
@@ -70,6 +93,12 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/keahlian">Keahlian</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/sertifikasi">Sertifikasi</a> <!-- TAMBAH INI -->
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/portofolio">Portofolio</a>
                     </li>
                 </ul>
             </div>

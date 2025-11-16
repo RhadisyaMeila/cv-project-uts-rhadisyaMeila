@@ -12,7 +12,7 @@ class Biodata extends Model
     protected $table = 'biodata';
     
     protected $fillable = [
-        'nama', 'email', 'telepon', 'alamat', 'tentang_saya', 'foto'
+        'nama', 'email', 'telepon', 'alamat', 'tentang_saya', 'foto', 'ringkasan', 'linkedin', 'github', 'instagram'
     ];
 
     public function pendidikan()
@@ -28,5 +28,14 @@ class Biodata extends Model
     public function keahlian()
     {
         return $this->hasMany(Keahlian::class);
+    }
+
+    public function sertifikasi()
+    {
+        return $this->hasMany(Sertifikasi::class);
+    }
+    public function portofolio()
+    {
+        return $this->hasMany(Portofolio::class);
     }
 }

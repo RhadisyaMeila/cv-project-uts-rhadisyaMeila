@@ -7,17 +7,23 @@ use App\Models\Biodata;
 use App\Models\Pendidikan;
 use App\Models\Pengalaman;
 use App\Models\Keahlian;
+use App\Models\Sertifikasi;
+use App\Models\Portofolio;
 
 class CVController extends Controller
 {
     public function index()
     {
-        // Ambil data biodata pertama dan load relasinya
-        $biodata = Biodata::with(['pendidikan', 'pengalaman', 'keahlian'])->first();
+        // PASTIKAN PAKAI with() UNTUK LOAD RELATIONSHIP
+        $biodata = Biodata::with(['pendidikan', 'pengalaman', 'keahlian', 'portofolio'])->first();
         
-        // Jika tidak ada data, kita buat data dummy untuk testing
+        // Jika tidak ada data sama sekali, buat object kosong
         if (!$biodata) {
-            return view('home')->with('biodata', null);
+            $biodata = new \stdClass();
+            $biodata->pendidikan = collect();
+            $biodata->pengalaman = collect();
+            $biodata->keahlian = collect();
+            $biodata->portofolio = collect();
         }
         
         return view('home', compact('biodata'));
@@ -37,7 +43,20 @@ class CVController extends Controller
 
     public function keahlian()
     {
+        // PASTIKAN INI MENGGUNAKAN $keahlian
         $keahlian = Keahlian::all();
         return view('keahlian', compact('keahlian'));
+    }
+
+    public function sertifikasi()
+    {
+        $sertifikasi = Sertifikasi::all();
+        return view('sertifikasi', compact('sertifikasi'));
+    }
+
+    public function portofolio()
+    {
+        $portofolio = Portofolio::all();
+        return view('portofolio', compact('portofolio'));
     }
 }
