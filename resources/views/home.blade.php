@@ -3,53 +3,63 @@
 @section('content')
 <div class="row">
     <!-- Profile Section -->
-    <div class="col-md-4 text-center">
-        @if($biodata->foto)
-            <img src="{{ asset($biodata->foto) }}" 
-                alt="Profile Photo" 
-                class="profile-img rounded-circle mb-3">
-        @else
-            <div class="profile-img rounded-circle mb-3 bg-light d-flex align-items-center justify-content-center mx-auto">
-                <i class="fas fa-user fa-3x text-muted"></i>
+            <div class="col-md-4 text-center mb-4">
+                @if($biodata->foto)
+                    <img src="{{ asset($biodata->foto) }}" 
+                        alt="Profile Photo" 
+                        class="profile-img mb-3">
+                @else
+                    <div class="profile-img-placeholder mx-auto mb-3">
+                        <i class="fas fa-user text-4xl text-gray-400"></i>
+                    </div>
+                @endif
+                
+                <h2 class="h3">{{ $biodata->nama }}</h2>
+                <p class="text-muted mb-4">{{ $biodata->posisi ?? 'Web Developer' }}</p>
+                
+                <div class="contact-info">
+                    <p class="mb-2">
+                        <i class="fas fa-envelope me-2 text-pastel-purple"></i>
+                        {{ $biodata->email }}
+                    </p>
+                    <p class="mb-2">
+                        <i class="fas fa-phone me-2 text-pastel-purple"></i>
+                        {{ $biodata->telepon }}
+                    </p>
+                    <p class="mb-3">
+                        <i class="fas fa-map-marker-alt me-2 text-pastel-purple"></i>
+                        {{ $biodata->alamat }}
+                    </p>
+                    
+                    <!-- Social Media -->
+                    <div class="social-links mt-3">
+                        @if($biodata->linkedin)
+                            <a href="{{ $biodata->linkedin }}" class="btn btn-pastel-blue btn-sm me-2 mb-2">
+                                <i class="fab fa-linkedin me-1"></i> LinkedIn
+                            </a>
+                        @endif
+                        @if($biodata->github)
+                            <a href="{{ $biodata->github }}" class="btn btn-dark btn-sm me-2 mb-2">
+                                <i class="fab fa-github me-1"></i> GitHub
+                            </a>
+                        @endif
+                        @if($biodata->instagram)
+                            <a href="{{ $biodata->instagram }}" class="btn btn-danger btn-sm mb-2">
+                                <i class="fab fa-instagram me-1"></i> Instagram
+                            </a>
+                        @endif
+                    </div>
+                </div>
             </div>
-        @endif
-        <h2>{{ $biodata->nama ?? 'Nama Lengkap' }}</h2>
-        <p class="text-muted">{{ $biodata->posisi ?? 'Web Developer' }}</p>
-        
-        <div class="contact-info mt-4">
-            <p><i class="fas fa-envelope"></i> {{ $biodata->email ?? 'email@example.com' }}</p>
-            <p><i class="fas fa-phone"></i> {{ $biodata->telepon ?? '+62 812-3456-7890' }}</p>
-            <p><i class="fas fa-map-marker-alt"></i> {{ $biodata->alamat ?? 'Jakarta, Indonesia' }}</p>
-            
-            <!-- Social Media Links - PENAMBAHAN BARU -->
-            <div class="social-links mt-3">
-                @if($biodata->linkedin ?? false)
-                    <a href="{{ $biodata->linkedin }}" target="_blank" class="btn btn-outline-primary btn-sm me-2 mb-2">
-                        <i class="fab fa-linkedin"></i> LinkedIn
-                    </a>
-                @endif
-                @if($biodata->github ?? false)
-                    <a href="{{ $biodata->github }}" target="_blank" class="btn btn-outline-dark btn-sm me-2 mb-2">
-                        <i class="fab fa-github"></i> GitHub
-                    </a>
-                @endif
-                @if($biodata->instagram ?? false)
-                    <a href="{{ $biodata->instagram }}" target="_blank" class="btn btn-outline-danger btn-sm mb-2">
-                        <i class="fab fa-instagram"></i> Instagram
-                    </a>
-                @endif
-            </div>
-        </div>
-    </div>
 
     <!-- Content Section -->
     <div class="col-md-8">
-        <!-- Ringkasan Profesional - PENAMBAHAN BARU -->
-        <div class="card mb-4 bg-light border-0">
+        <!-- Ringkasan Profesional -->
+        <div class="card pastel-card bg-pastel-blue mb-4">
             <div class="card-body">
                 <h3 class="section-title">🎯 Ringkasan Profesional</h3>
-                <p class="lead" style="font-size: 1.1rem; line-height: 1.6;">
-                    {{ $biodata->ringkasan ?? 'Seorang web developer yang berdedikasi dengan pengalaman dalam pengembangan aplikasi web modern. Memiliki keahlian dalam Laravel, PHP, dan JavaScript dengan passion untuk menciptakan solusi digital yang inovatif dan efisien.' }}
+                <p class="lead mb-0" style="font-size: 1.1rem; line-height: 1.6;">
+                    {{ $biodata->ringkasan ?? 'Seorang web developer yang berdedikasi...' }}
                 </p>
             </div>
         </div>
@@ -106,26 +116,30 @@
         </div>
 
         <!-- Skills Preview -->
-        <div class="card mb-4">
+        <div class="card pastel-card mb-4">
             <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h3 class="section-title">🛠️ Keahlian</h3>
-                    <a href="/keahlian" class="btn btn-outline-primary btn-sm">Lihat Semua</a>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="section-title mb-0">🛠️ Keahlian</h3>
+                    <a href="/keahlian" class="btn btn-pastel-blue">Lihat Semua</a>
                 </div>
                 
                 @if(isset($biodata->keahlian) && $biodata->keahlian->count() > 0)
-                    <div class="row mt-3">
+                    <div class="row">
                         @foreach($biodata->keahlian->take(6) as $skill)
-                        <div class="col-md-4 mb-3">
-                            <div class="skill-item">
-                                <div class="d-flex justify-content-between align-items-center mb-1">
-                                    <strong>{{ $skill->nama_keahlian }}</strong>
-                                    <span class="badge bg-{{ $skill->tingkat == 'pemula' ? 'warning' : ($skill->tingkat == 'menengah' ? 'info' : 'success') }} text-capitalize">
+                        <div class="col-lg-4 col-md-6 mb-3">
+                            <div class="skill-item p-3 rounded">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <strong class="text-dark">{{ $skill->nama_keahlian }}</strong>
+                                    <span class="badge 
+                                        {{ $skill->tingkat == 'pemula' ? 'bg-warning' : 
+                                        ($skill->tingkat == 'menengah' ? 'bg-info' : 'bg-success') }}">
                                         {{ $skill->tingkat }}
                                     </span>
                                 </div>
-                                <div class="progress" style="height: 8px;">
-                                    <div class="progress-bar bg-{{ $skill->tingkat == 'pemula' ? 'warning' : ($skill->tingkat == 'menengah' ? 'info' : 'success') }}" 
+                                <div class="skill-bar mb-2">
+                                    <div class="skill-progress 
+                                        {{ $skill->tingkat == 'pemula' ? 'bg-warning' : 
+                                        ($skill->tingkat == 'menengah' ? 'bg-info' : 'bg-success') }}"
                                         style="width: {{ $skill->tingkat == 'pemula' ? '33%' : ($skill->tingkat == 'menengah' ? '66%' : '100%') }}">
                                     </div>
                                 </div>
@@ -135,11 +149,10 @@
                         @endforeach
                     </div>
                 @else
-                    <p class="text-muted">Data keahlian belum tersedia.</p>
+                    <p class="text-muted text-center py-3">Data keahlian belum tersedia.</p>
                 @endif
             </div>
         </div>
-
         <!-- Sertifikasi Preview -->
         <div class="card mb-4">
             <div class="card-body">
